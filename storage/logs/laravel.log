@@ -9123,3 +9123,44 @@ Did you mean one of these?
 #59 /home/drgroupb/public_html/index.php(31): Illuminate\\Foundation\\Application->handleRequest()
 #60 {main}
 "} 
+[2026-09-17 07:55:14] production.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: localhost, Port: 3306, Database: drgroupb_trade, SQL: select * from `store_settings` where `key` = notification_email limit 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, Host: localhost, Port: 3306, Database: drgroupb_trade, SQL: select * from `store_settings` where `key` = notification_email limit 1) at C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php:857)
+[stacktrace]
+#0 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1038): Illuminate/Database/Connection->runQueryCallback()
+#1 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1017): Illuminate/Database/Connection->tryAgainIfCausedByLostConnection()
+#2 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(815): Illuminate/Database/Connection->handleQueryException()
+#3 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(426): Illuminate/Database/Connection->run()
+#4 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3629): Illuminate/Database/Connection->select()
+#5 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3613): Illuminate/Database/Query/Builder->runSelect()
+#6 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(931): Illuminate/Database/Query/Builder->get()
+#7 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(913): Illuminate/Database/Eloquent/Builder->getModels()
+#8 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(408): Illuminate/Database/Eloquent/Builder->get()
+#9 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/app/Models/StoreSetting.php(16): Illuminate/Database/Eloquent/Builder->first()
+#10 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/storage/logs/_diag_mail.php(9): App/Models/StoreSetting::get()
+#11 {main}
+
+[previous exception] [object] (PDOException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it at C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:67)
+[stacktrace]
+#0 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(67): PDO::connect()
+#1 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(85): Illuminate/Database/Connectors/Connector->createPdoConnection()
+#2 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(48): Illuminate/Database/Connectors/Connector->tryAgainIfCausedByLostConnection()
+#3 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connectors/MySqlConnector.php(24): Illuminate/Database/Connectors/Connector->createConnection()
+#4 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php(220): Illuminate/Database/Connectors/MySqlConnector->connect()
+#5 [internal function]: Illuminate/Database/Connectors/ConnectionFactory->{closure:Illuminate/Database/Connectors/ConnectionFactory::createPdoResolverWithHosts():213}()
+#6 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1298): call_user_func()
+#7 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1336): Illuminate/Database/Connection->getPdo()
+#8 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(542): Illuminate/Database/Connection->getReadPdo()
+#9 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(435): Illuminate/Database/Connection->getPdoForSelect()
+#10 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(846): Illuminate/Database/Connection->{closure:Illuminate/Database/Connection::select():426}()
+#11 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1038): Illuminate/Database/Connection->runQueryCallback()
+#12 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1017): Illuminate/Database/Connection->tryAgainIfCausedByLostConnection()
+#13 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(815): Illuminate/Database/Connection->handleQueryException()
+#14 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Connection.php(426): Illuminate/Database/Connection->run()
+#15 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3629): Illuminate/Database/Connection->select()
+#16 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3613): Illuminate/Database/Query/Builder->runSelect()
+#17 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(931): Illuminate/Database/Query/Builder->get()
+#18 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(913): Illuminate/Database/Eloquent/Builder->getModels()
+#19 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/vendor/laravel/framework/src/Illuminate/Database/Concerns/BuildsQueries.php(408): Illuminate/Database/Eloquent/Builder->get()
+#20 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/app/Models/StoreSetting.php(16): Illuminate/Database/Eloquent/Builder->first()
+#21 C:/Users/rakib/Documents/cPanel/tradeweb-rakib/storage/logs/_diag_mail.php(9): App/Models/StoreSetting::get()
+#22 {main}
+"} 

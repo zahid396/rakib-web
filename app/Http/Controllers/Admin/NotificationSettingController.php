@@ -37,7 +37,7 @@ class NotificationSettingController extends Controller
         $validated = $request->validate([
             'notification_email' => 'nullable|email|max:255',
             'email_notifications_enabled' => 'nullable|boolean',
-            'mailer_transport' => 'required|in:log,smtp',
+            'mailer_transport' => 'required|in:log,smtp,sendmail',
             'smtp_host' => 'nullable|string|max:255',
             'smtp_port' => 'nullable|integer|between:1,65535',
             'smtp_username' => 'nullable|string|max:255',
@@ -78,13 +78,20 @@ class NotificationSettingController extends Controller
     {
         $sent = AdminNotifier::send(
             'Test notification from your store',
-            '<p>This is a test notification. If you are reading this, email notifications are working correctly.</p>'
+            '<p>This is a test notification. If you are reading this, email notifications are working correctly.</p>',
+            true
         );
 
         if ($sent) {
-            return redirect()->route('admin.notifications.index')->with('success', 'A test email was sent successfully.');
+            $mode = StoreSetting::get('mailer_transport', 'log');
+
+            $message = $mode === 'log'
+                ? 'Test message written to the application log (log mode never delivers a real email; switch to SMTP or PHP mail() on the live site).'
+                : 'A test email was sent successfully.';
+
+            return redirect()->route('admin.notifications.index')->with('success', $message);
         }
 
-        return redirect()->route('admin.notifications.index')->with('error', 'Test email could not be sent. Check your settings (recipient email, enabled toggle and SMTP details).');
+        return redirect()->route('admin.notifications.index')->with('error', 'Test email could not be sent. '.AdminNotifier::lastError());
     }
 }

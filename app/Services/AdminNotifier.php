@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Mail;
 
 class AdminNotifier
 {
+    protected static ?string $lastError = null;
+
+    /**
+     * The human-readable reason for the last failed send.
+     */
+    public static function lastError(): ?string
+    {
+        return self::$lastError;
+    }
+
     /**
      * Whether email notifications are switched on in the admin panel.
      */
@@ -39,17 +49,24 @@ class AdminNotifier
 
     /**
      * Send an email to the admin. Returns true when the message was dispatched.
+     * When $force is true the "enabled" toggle is ignored (used by the test button).
      */
-    public static function send(string $subject, string $messageHtml): bool
+    public static function send(string $subject, string $messageHtml, bool $force = false): bool
     {
+        self::$lastError = null;
+
         try {
-            if (! static::isEnabled()) {
+            if (! $force && ! static::isEnabled()) {
+                self::$lastError = 'Email notifications are disabled. Turn on "Enable notifications" in Settings - Email Notifications.';
+
                 return false;
             }
 
             $to = static::recipient() ?: static::fallbackRecipient();
 
             if (! $to) {
+                self::$lastError = 'No recipient email is configured. Set a "Notification Email", or a store "Contact Email" as fallback.';
+
                 Log::info('Notification email skipped: no recipient configured.');
 
                 return false;
@@ -63,6 +80,8 @@ class AdminNotifier
 
             return true;
         } catch (\Throwable $e) {
+            self::$lastError = 'Mailer error: '.$e->getMessage();
+
             Log::warning('Notification email could not be sent: '.$e->getMessage());
 
             return false;
@@ -70,11 +89,17 @@ class AdminNotifier
     }
 
     /**
-     * Apply the SMTP settings saved in the store settings before sending.
+     * Apply the mail transport settings saved in the store settings before sending.
      */
     protected static function applyMailConfig(): void
     {
         $transport = StoreSetting::get('mailer_transport', 'log');
+
+        if ($transport === 'sendmail') {
+            config(['mail.default' => 'sendmail']);
+
+            return;
+        }
 
         if ($transport !== 'smtp') {
             config(['mail.default' => 'log']);
@@ -82,7 +107,13 @@ class AdminNotifier
             return;
         }
 
-        $fromAddress = StoreSetting::get('mail_from_address') ?: config('mail.from.address');
+        $fromAddress = StoreSetting::get('mail_from_address') ?: StoreSetting::get('smtp_username');
+
+        if ($fromAddress && filter_var($fromAddress, FILTER_VALIDATE_EMAIL) === false) {
+            $fromAddress = null;
+        }
+
+        $fromAddress = $fromAddress ?: config('mail.from.address');
 
         $encryption = StoreSetting::get('smtp_encryption') ?: null;
 

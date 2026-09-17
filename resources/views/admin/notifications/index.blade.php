@@ -42,13 +42,14 @@
                 <div class="form-section">
                     <h4 class="form-section-title">Mailer Configuration</h4>
                     <p style="margin-bottom:1rem; font-size:0.8rem; color:var(--text-secondary);">
-                        Choose <strong>Log</strong> to simply write emails to the log file (safe for testing), or <strong>SMTP</strong> to send real emails through your hosting provider's mail server.
+                        Choose <strong>Log</strong> to simply write emails to the log file (safe for testing only, <strong>no real email is sent</strong>), <strong>SMTP</strong> to send real emails through your cPanel mail server, or <strong>PHP mail()</strong> to use your host's built-in mail function (usually works on cPanel with no SMTP details).
                     </p>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="mailer_transport">Transport</label>
                             <select id="mailer_transport" name="mailer_transport" class="form-control">
-                                <option value="log" {{ $settings['mailer_transport'] === 'log' ? 'selected' : '' }}>Log (test mode)</option>
+                                <option value="log" {{ $settings['mailer_transport'] === 'log' ? 'selected' : '' }}>Log (test mode - no real email)</option>
+                                <option value="sendmail" {{ $settings['mailer_transport'] === 'sendmail' ? 'selected' : '' }}>PHP mail() (cPanel - recommended)</option>
                                 <option value="smtp" {{ $settings['mailer_transport'] === 'smtp' ? 'selected' : '' }}>SMTP</option>
                             </select>
                         </div>
